@@ -14,13 +14,22 @@ public class hexagonbutton : MonoBehaviour
     GameObject questiontext;
 
     public void SetQuestion(){
+        int currentteam = GetComponentInParent<gamemaster>().currentteam;
+        
         question = myletter + " هذا هو السؤال";
-        GameObject.FindGameObjectWithTag("Question").GetComponent<Text>().text = ArabicFixer.Fix(question, false, false);
+        GameObject.FindGameObjectWithTag("Question").GetComponent<Text>().text = ArabicFixer.Fix(question, false, true);
         questionpanel.GetComponent<Canvas>().enabled = true;
         questionpanel.GetComponent<questionhub>().questionletter = gameObject;
+        
+        int x = Random.Range(0,3);
+        for(int i=0; i < 4; i++){
+            if(i == x)
+                questionpanel.GetComponent<questionhub>().SetChoice(i, true, currentteam);
+            else 
+                questionpanel.GetComponent<questionhub>().SetChoice(i, false, currentteam);
+        }
 
-
-        Debug.Log("button pressed");
+        Debug.Log("button pressed  " + myletter);
     }
 
     // Start is called before the first frame update

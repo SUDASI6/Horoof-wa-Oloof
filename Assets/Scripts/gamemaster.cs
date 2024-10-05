@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using ArabicSupport;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class gamemaster : MonoBehaviour
 {
+    public int currentteam = 0;
+
     List<string> letters = new List<string>() {"أ","ب","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ف","ق","ك","ل","م","ن","ه","و","ي"};
     private string[] usedletters = new string[28];
     
@@ -21,7 +24,7 @@ public class gamemaster : MonoBehaviour
 
             hexbutton.questionpanel = questionpanel;
             hexbutton.myletter = letters[x];
-            text.text = letters[x];
+            text.text = ArabicFixer.Fix(letters[x], false, true);
 
             letters.Remove(letters[x]);
             
