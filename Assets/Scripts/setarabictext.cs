@@ -10,7 +10,7 @@ public class setarabictext : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.GetComponent<Text>().text = ArabicFixer.Fix(text, false, false);
+        gameObject.GetComponent<Text>().text = ArabicFixer.Fix(text, true, true);
     }
 
     // Update is called once per frame

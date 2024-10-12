@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using ArabicSupport;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class questionhub : MonoBehaviour
 
     public void TrueAnswer(Color teamcolor){
         questionletter.GetComponent<Image>().color = teamcolor;
+        questionletter.GetComponent<Button>().interactable = false;
+
         gameObject.GetComponent<Canvas>().enabled = false;
 
         int currentteam = gamemaster.GetComponent<gamemaster>().currentteam;
@@ -37,14 +40,14 @@ public class questionhub : MonoBehaviour
         Transform choice = choices.transform.GetChild(choicenumber);
         if(correctanswer){
             choicetext = "هذه الاجابة الصحيحة " + (choicenumber+1);
-            choice.GetChild(0).GetComponent<Text>().text = ArabicFixer.Fix(choicetext, false, true);
+            choice.GetChild(0).GetComponent<Text>().text = ArabicFixer.Fix(choicetext, true, true);
 
             choice.GetComponent<Image>().color = teamcolor[0];
             choice.GetComponent<Button>().onClick.RemoveAllListeners();
             choice.GetComponent<Button>().onClick.AddListener(() => {TrueAnswer(teamcolor[team]);});
         } else {
             choicetext = "هذه الاجابة خاطئة " + (choicenumber+1);
-            choice.GetChild(0).GetComponent<Text>().text = ArabicFixer.Fix(choicetext, false, true);
+            choice.GetChild(0).GetComponent<Text>().text = ArabicFixer.Fix(choicetext, true, true);
             
             choice.GetComponent<Image>().color = teamcolor[1];
             choice.GetComponent<Button>().onClick.RemoveAllListeners();

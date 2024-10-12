@@ -1,14 +1,20 @@
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using ArabicSupport;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class hexagonbutton : MonoBehaviour
 {
+    public Data competition;
+
+    public int numberofquestions;
+
     public string myletter;
     public string question;
+    public string currentcomp;
+    public string[] questions;
 
     public GameObject gamemaster;
     public GameObject questionpanel;
@@ -17,9 +23,10 @@ public class hexagonbutton : MonoBehaviour
     public void SetQuestion(){
         int currentteam = gamemaster.GetComponent<gamemaster>().currentteam;
         int correctchoice = Random.Range(0,3);
+        int randomquestionindex = Random.Range(0, numberofquestions);
 
-        question = myletter + " هذا هو السؤال";
-        GameObject.FindGameObjectWithTag("Question").GetComponent<Text>().text = ArabicFixer.Fix(question, false, true);
+        question = questions[randomquestionindex];
+        GameObject.FindGameObjectWithTag("Question").GetComponent<Text>().text = ArabicFixer.Fix(question, true, true);
         questionpanel.GetComponent<Canvas>().enabled = true;
         questionpanel.GetComponent<questionhub>().questionletter = gameObject;
         
@@ -37,6 +44,11 @@ public class hexagonbutton : MonoBehaviour
     void Start()
     {   
         questiontext = GameObject.FindGameObjectWithTag("Question");
+
+        competition = gamemaster.GetComponent<gamemaster>().competition;
+        currentcomp = competition.compname;
+        questions = competition.questions;
+        numberofquestions = questions.Length;
     }
 
     // Update is called once per frame

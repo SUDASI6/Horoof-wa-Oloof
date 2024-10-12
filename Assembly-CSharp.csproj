@@ -54,10 +54,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\ArabicSupport.cs" />
+     <Compile Include="Assets\Scripts\Data.cs" />
      <Compile Include="Assets\Scripts\gamemaster.cs" />
      <Compile Include="Assets\Scripts\hexagonbutton.cs" />
      <Compile Include="Assets\Scripts\questionhub.cs" />
      <Compile Include="Assets\Scripts\setarabictext.cs" />
+     <Compile Include="Assets\Scripts\startmenu.cs" />
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>/Users/mohammedali/Desktop/Unity/Horoof wa Oloof mac/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
