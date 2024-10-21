@@ -8,11 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class gamemaster : MonoBehaviour
 {
-    public Data competition;
+    public Data comp = new Data();
 
     public int currentteam = 0;
+    public List<int> askedquestions = new List<int>();
+    public List<int> correctlyansweredquestions = new List<int>();
 
-    public string currentcomp;
     List<string> letters = new List<string>() {"أ","ب","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ف","ق","ك","ل","م","ن","ه","و","ي"};
     
     public GameObject hexagon;
@@ -28,10 +29,10 @@ public class gamemaster : MonoBehaviour
         string jsoncontent = File.ReadAllText(Application.dataPath + "/CompetitionToLoadInfo.json");
         Data compinfo = JsonUtility.FromJson<Data>(jsoncontent);
 
-        currentcomp = compinfo.compname;
+        comp.compname = compinfo.compname;
 
-        jsoncontent = File.ReadAllText(Application.dataPath + "/Competitions/" + currentcomp + ".json");
-        competition = JsonUtility.FromJson<Data>(jsoncontent);
+        jsoncontent = File.ReadAllText(Application.dataPath + "/Competitions/" + comp.compname + ".json");
+        comp = JsonUtility.FromJson<Data>(jsoncontent);
 
         // Set Letters On Hexagons
         for(int i=0; i < 25; i++){
@@ -45,12 +46,7 @@ public class gamemaster : MonoBehaviour
 
             letters.Remove(letters[x]);
 
-            hexbutton.competition = competition;
-            hexbutton.currentcomp = competition.compname;
-            hexbutton.questions = competition.questions;
-            hexbutton.numberofquestions = competition.questions.Length;
-            
-            Debug.Log(hexbutton.myletter);
+            hexbutton.comp = comp;   
         }
     }
 

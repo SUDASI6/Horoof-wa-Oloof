@@ -6,4 +6,5 @@ public class Data
 {
     public string compname;
     public string[] questions;
+    public string[] choices;
 }
