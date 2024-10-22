@@ -32,26 +32,32 @@ public class startmenu : MonoBehaviour
     
     public EventSystem eventsys;
     
-    public InputField questioninput;
-    public InputField compnameinput;
+    public CustomInputField questioninput;
+    public CustomInputField compnameinput;
     
+    public CustomButton returnloadbtn;
+    public CustomButton returnnewbtn;
+    public CustomButton addquestionbtn;
+    public CustomButton savecompbtn;
+    public CustomButton deletequestionbtn;
+    public CustomButton duplicatequestionbtn;
     public Button newcompbtn;
-    public Button savecompbtn;
-    public Button addquestionbtn;
-    public Button deletequestionbtn;
-    public Button duplicatequestionbtn;
     public Button deletecompbtn;
     public Button editcompbtn;
     public Button entercompbtn;
 
     public Text questioninputvisible;
 
+    IEnumerator WaitForFrameEnd(){
+        yield return new WaitForEndOfFrame();
+    }
+
     public void NewCompPanel(){
         startpanel.SetActive(false);
         newpanel.SetActive(true);
         loadpanel.SetActive(false);
 
-        eventsys.SetSelectedGameObject(questioninput.gameObject);
+        eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
 
         GridLayoutGroup questionscontent = questionspanel.transform.GetChild(0).GetComponent<GridLayoutGroup>();
         float widthfactor = questionspanel.GetComponent<RectTransform>().rect.width/450f;
@@ -73,7 +79,7 @@ public class startmenu : MonoBehaviour
         loadpanel.SetActive(true);
         currentcomp = -1;
 
-        eventsys.SetSelectedGameObject(entercompbtn.gameObject);
+        eventsys.SetSelectedGameObject(returnloadbtn.gameObject, new BaseEventData(eventsys));
 
         GridLayoutGroup compscontent = compspanel.transform.GetChild(0).GetComponent<GridLayoutGroup>();
         float widthfactor = compspanel.GetComponent<RectTransform>().rect.width/700f;
@@ -105,12 +111,19 @@ public class startmenu : MonoBehaviour
             newcomp.GetComponent<Button>().onClick.RemoveAllListeners();
             newcomp.GetComponent<Button>().onClick.AddListener(() => {SelectComp(newcomp);});
 
+            
             currentcompnum++;
+        }
+
+        if(fileinfo.Length != 0){
+            StartCoroutine(WaitForFrameEnd());
+            eventsys.SetSelectedGameObject(compspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
         }
     }
 
     public void SelectComp(GameObject pressedbtn){
         currentcomp = int.Parse(pressedbtn.name.Remove(0, pressedbtn.name.Length-1));
+        eventsys.SetSelectedGameObject(editcompbtn.gameObject, new BaseEventData(eventsys));
     }
 
     public void DeleteComp(){
@@ -135,6 +148,8 @@ public class startmenu : MonoBehaviour
         ReturnButton();
         NewCompPanel();
 
+        eventsys.SetSelectedGameObject(null, new BaseEventData(eventsys));
+
         string jsoncontent = File.ReadAllText(Application.dataPath + "/Competitions/" + compnames[currentcomp] + ".json");
         Data data = JsonUtility.FromJson<Data>(jsoncontent);
 
@@ -143,11 +158,17 @@ public class startmenu : MonoBehaviour
             int x=0;
             questioninput.text = question;
             foreach(Transform choice in choices.transform){
-                choice.GetComponent<InputField>().text = data.choices[currentquestionnum*4 + x];
+                choice.GetComponent<CustomInputField>().text = data.choices[currentquestionnum*4 + x];
                 x++;
             }
             AddQuestion(questioninputvisible);
         }
+
+        if(data.questions.Length != 0){
+            Debug.Log("select question0");
+            StartCoroutine(WaitForFrameEnd());
+            eventsys.SetSelectedGameObject(questionspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
+        }        
     }
 
     public void EnterComp(){
@@ -182,7 +203,7 @@ public class startmenu : MonoBehaviour
         foreach(Transform child in compspanel.transform.GetChild(0))
             Destroy(child.gameObject);
         foreach(Transform choice in choices.transform)
-            choice.GetComponent<InputField>().text = "";
+            choice.GetComponent<CustomInputField>().text = "";
         
         currentquestionnum = 0;
         currentcompnum = 0;
@@ -196,7 +217,7 @@ public class startmenu : MonoBehaviour
         newpanel.SetActive(false);
         loadpanel.SetActive(false);
 
-        eventsys.SetSelectedGameObject(newcompbtn.gameObject);
+        eventsys.SetSelectedGameObject(newcompbtn.gameObject, new BaseEventData(eventsys));
     }
 
     public void DeleteQuestion(){
@@ -218,7 +239,7 @@ public class startmenu : MonoBehaviour
     public void DuplicateQuestion(){
         questioninput.text = questionslist[currentquestion];
         for(int i=0; i < 4; i++)
-            choices.transform.GetChild(i).GetComponent<InputField>().text = choiceslist[currentquestion*4 + i];
+            choices.transform.GetChild(i).GetComponent<CustomInputField>().text = choiceslist[currentquestion*4 + i];
         AddQuestion(questioninputvisible);
 
         questionbtnpressed = false;
@@ -230,14 +251,16 @@ public class startmenu : MonoBehaviour
 
         questioninput.text = questionslist[currentquestion];
         for(int i=0; i < 4; i++)
-            choices.transform.GetChild(i).GetComponent<InputField>().text = choiceslist[currentquestion*4 + i];        
+            choices.transform.GetChild(i).GetComponent<CustomInputField>().text = choiceslist[currentquestion*4 + i];        
         
         questionbtnpressed = true;
+
+        eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
     }
 
     public void AddQuestion(Text question){
         foreach(Transform choice in choices.transform){
-            choiceslist.Add(choice.GetComponent<InputField>().text);
+            choiceslist.Add(choice.GetComponent<CustomInputField>().text);
         }
         questionslist.Add(questioninput.text);
         
@@ -246,21 +269,27 @@ public class startmenu : MonoBehaviour
         newquestion.transform.SetParent(questionspanel.transform.GetChild(0));
         
         newquestion.GetComponent<RectTransform>().localScale = new Vector3(1,1,1);
-        newquestion.GetComponent<Button>().onClick.RemoveAllListeners();
-        newquestion.GetComponent<Button>().onClick.AddListener(() => {EditQuestion(newquestion);});
+        newquestion.GetComponent<CustomButton>().rightSelectable = questioninput;
+        newquestion.GetComponent<CustomButton>().onClick.RemoveAllListeners();
+        newquestion.GetComponent<CustomButton>().onClick.AddListener(() => {EditQuestion(newquestion);});
         newquestion.GetComponentInChildren<Text>().text = question.text;
 
         foreach(Transform choice in choices.transform)
-            choice.GetComponent<InputField>().text = "";
+            choice.GetComponent<CustomInputField>().text = "";
         questioninput.text = "";
         currentquestionnum++;
-        
-        Debug.Log("Question Added: " + question.text);
+
+        if(currentquestionnum == 0){
+            StartCoroutine(WaitForFrameEnd());
+            returnnewbtn.downSelectable = newquestion.GetComponent<CustomButton>();
+            addquestionbtn.leftSelectable = newquestion.GetComponent<CustomButton>();
+
+        }        
 
         questionbtnpressed = false;
     }
 
-    public void UpdateArabicText(InputField input){
+    public void UpdateArabicText(CustomInputField input){
         foreach(Transform child in input.transform){
             if(child.name == "VisibleText"){
                 child.GetComponent<Text>().text = ArabicFixer.Fix(input.text, true, true);
@@ -288,38 +317,68 @@ public class startmenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int choiceswritten = 0;
-        
-        foreach(Transform choice in choices.transform){
-            if(choice.GetComponent<InputField>().text != "" && choice.GetComponent<InputField>().text != null)
-                choiceswritten++;
+        if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Tab)){
+            Selectable previous = eventsys.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+
+            if(previous != null){
+                CustomInputField previousCustomInputField = previous.GetComponent<CustomInputField>();
+
+                if(previousCustomInputField != null){
+                    previousCustomInputField.OnPointerClick(new PointerEventData(eventsys));
+                }
+
+
+                eventsys.SetSelectedGameObject(previous.gameObject, new BaseEventData(eventsys));
+            } else Debug.Log("no previous element");
+        } else if(Input.GetKeyDown(KeyCode.Tab)){
+            Selectable next = eventsys.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+
+            if(next != null){
+                CustomInputField nextCustomInputField = next.GetComponent<CustomInputField>();
+
+                if(nextCustomInputField != null){
+                    nextCustomInputField.OnPointerClick(new PointerEventData(eventsys));
+                }
+
+                eventsys.SetSelectedGameObject(next.gameObject, new BaseEventData(eventsys));
+            } else Debug.Log("no next element");
         }
-        
-        if(!questionbtnpressed){
-            deletequestionbtn.interactable = false;
-            duplicatequestionbtn.interactable = false;
-        } else {
-            deletequestionbtn.interactable = true;
-            duplicatequestionbtn.interactable = true;
-        }
-        if(questioninput.text == "" || choiceswritten < 2 || choices.transform.GetChild(0).GetComponent<InputField>().text == ""){
-            addquestionbtn.interactable = false;
-        } else {
-            addquestionbtn.interactable = true;
-        }
-        if(currentcomp == -1){
-            deletecompbtn.interactable = false;
-            editcompbtn.interactable = false;
-            entercompbtn.interactable = false;
-        } else {
-            deletecompbtn.interactable = true;
-            editcompbtn.interactable = true;
-            entercompbtn.interactable = true;
-        }
-        if(compnameinput.text == "" || questionslist.Count == 0){
-            savecompbtn.interactable = false;
-        } else {
-            savecompbtn.interactable = true;
-        }
+
+        #region Interactable Buttons Manager
+            
+            int choiceswritten = 0;
+            
+            foreach(Transform choice in choices.transform){
+                if(choice.GetComponent<CustomInputField>().text != "" && choice.GetComponent<CustomInputField>().text != null)
+                    choiceswritten++;
+            }
+            
+            if(!questionbtnpressed){
+                deletequestionbtn.interactable = false;
+                duplicatequestionbtn.interactable = false;
+            } else {
+                deletequestionbtn.interactable = true;
+                duplicatequestionbtn.interactable = true;
+            }
+            if(questioninput.text == "" || choiceswritten < 2 || choices.transform.GetChild(0).GetComponent<CustomInputField>().text == ""){
+                addquestionbtn.interactable = false;
+            } else {
+                addquestionbtn.interactable = true;
+            }
+            if(currentcomp == -1){
+                deletecompbtn.interactable = false;
+                editcompbtn.interactable = false;
+                entercompbtn.interactable = false;
+            } else {
+                deletecompbtn.interactable = true;
+                editcompbtn.interactable = true;
+                entercompbtn.interactable = true;
+            }
+            if(compnameinput.text == "" || questionslist.Count == 0){
+                savecompbtn.interactable = false;
+            } else {
+                savecompbtn.interactable = true;
+            }
+        #endregion
     }
 }

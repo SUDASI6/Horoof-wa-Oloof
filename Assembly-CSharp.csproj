@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\ArabicSupport.cs" />
+     <Compile Include="Assets\Scripts\CustomButton.cs" />
+     <Compile Include="Assets\Scripts\CustomInputField.cs" />
      <Compile Include="Assets\Scripts\Data.cs" />
      <Compile Include="Assets\Scripts\gamemaster.cs" />
      <Compile Include="Assets\Scripts\hexagonbutton.cs" />

@@ -524,9 +524,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1116352939}
+    m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 1418988005}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1395706119}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1116352939}
+    m_SelectOnUp: {fileID: 1395706119}
     m_SelectOnDown: {fileID: 297287912}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 1685824056}
@@ -1789,9 +1789,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1212189476}
+    m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 2013014235}
-    m_SelectOnLeft: {fileID: 1212189476}
+    m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -2996,18 +2996,20 @@ MonoBehaviour:
     type: 3}
   compprefab: {fileID: 2492295733410134413, guid: 58cbd1524942d4ebc88bc3caa4f058a5,
     type: 3}
-  eventsys: {fileID: 0}
-  questioninput: {fileID: 1116352939}
-  compnameinput: {fileID: 297287912}
-  newcompbtn: {fileID: 0}
-  savecompbtn: {fileID: 29455721}
-  addquestionbtn: {fileID: 1395706119}
-  deletequestionbtn: {fileID: 1685824056}
-  duplicatequestionbtn: {fileID: 180495941}
+  eventsys: {fileID: 801704756}
+  questioninput: {fileID: 0}
+  compnameinput: {fileID: 0}
+  returnloadbtn: {fileID: 0}
+  returnnewbtn: {fileID: 0}
+  addquestionbtn: {fileID: 0}
+  savecompbtn: {fileID: 0}
+  deletequestionbtn: {fileID: 0}
+  duplicatequestionbtn: {fileID: 0}
+  newcompbtn: {fileID: 1430817144}
   deletecompbtn: {fileID: 587645788}
   editcompbtn: {fileID: 2013014235}
   entercompbtn: {fileID: 443519103}
-  questioninputvisible: {fileID: 1872488201}
+  questioninputvisible: {fileID: 0}
 --- !u!1 &1086494526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3295,9 +3297,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1395706119}
+    m_SelectOnUp: {fileID: 2042739226}
     m_SelectOnDown: {fileID: 154683657}
-    m_SelectOnLeft: {fileID: 2042739226}
+    m_SelectOnLeft: {fileID: 1395706119}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -3444,7 +3446,7 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1395383583}
     m_SelectOnDown: {fileID: 297287912}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1395706119}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -3625,7 +3627,7 @@ GameObject:
   - component: {fileID: 1212189477}
   - component: {fileID: 1212189476}
   m_Layer: 5
-  m_Name: Return
+  m_Name: ReturnLoad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3666,7 +3668,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 587645788}
+    m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 587645788}
   m_Transition: 1
@@ -4126,7 +4128,7 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1418988005}
     m_SelectOnDown: {fileID: 1192552557}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1395706119}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -4270,9 +4272,9 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 2042739226}
-    m_SelectOnDown: {fileID: 154683657}
+    m_SelectOnDown: {fileID: 180495941}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 1116352939}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4552,7 +4554,7 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 154683657}
     m_SelectOnDown: {fileID: 1395383583}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1395706119}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -5286,7 +5288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1116352939}
+    m_SelectOnUp: {fileID: 154683657}
     m_SelectOnDown: {fileID: 297287912}
     m_SelectOnLeft: {fileID: 180495941}
     m_SelectOnRight: {fileID: 0}
@@ -6002,7 +6004,7 @@ GameObject:
   - component: {fileID: 2042739227}
   - component: {fileID: 2042739226}
   m_Layer: 5
-  m_Name: Return
+  m_Name: ReturnNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6043,7 +6045,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 1116352939}
+    m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 1116352939}
   m_Transition: 1
