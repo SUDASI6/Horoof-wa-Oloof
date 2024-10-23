@@ -9,11 +9,12 @@ using UnityEngine.EventSystems;
 
 public class startmenu : MonoBehaviour
 {
-    bool questionbtnpressed = false;
+    public bool editingquestion = false;
+    public bool editingcomp = false;
 
-    int currentquestionnum = 0;
-    int currentcompnum = 0;
-    public int currentquestion;
+    int questionnameindex = 0;
+    int compnameindex = 0;
+    int currentquestion;
     int currentcomp;
 
     public List<string> questionslist = new List<string>();
@@ -32,15 +33,15 @@ public class startmenu : MonoBehaviour
     
     public EventSystem eventsys;
     
-    public CustomInputField questioninput;
-    public CustomInputField compnameinput;
+    public InputField questioninput;
+    public InputField compnameinput;
     
-    public CustomButton returnloadbtn;
-    public CustomButton returnnewbtn;
-    public CustomButton addquestionbtn;
-    public CustomButton savecompbtn;
-    public CustomButton deletequestionbtn;
-    public CustomButton duplicatequestionbtn;
+    public Button returnloadbtn;
+    public Button returnnewbtn;
+    public Button addquestionbtn;
+    public Button savecompbtn;
+    public Button deletequestionbtn;
+    public Button duplicatequestionbtn;
     public Button newcompbtn;
     public Button deletecompbtn;
     public Button editcompbtn;
@@ -57,7 +58,8 @@ public class startmenu : MonoBehaviour
         newpanel.SetActive(true);
         loadpanel.SetActive(false);
 
-        eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
+        if(!editingcomp)
+            eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
 
         GridLayoutGroup questionscontent = questionspanel.transform.GetChild(0).GetComponent<GridLayoutGroup>();
         float widthfactor = questionspanel.GetComponent<RectTransform>().rect.width/450f;
@@ -102,7 +104,7 @@ public class startmenu : MonoBehaviour
             string compname = file.Name.Remove(file.Name.Length - 5, 5);
             compnames.Add(compname);
 
-            newcomp.name = "comp" + currentcompnum;
+            newcomp.name = "comp" + compnameindex;
             newcomp.transform.SetParent(compspanel.transform.GetChild(0));
 
             newcomp.GetComponent<RectTransform>().localScale = new Vector3(1,1,1);
@@ -112,7 +114,7 @@ public class startmenu : MonoBehaviour
             newcomp.GetComponent<Button>().onClick.AddListener(() => {SelectComp(newcomp);});
 
             
-            currentcompnum++;
+            compnameindex++;
         }
 
         if(fileinfo.Length != 0){
@@ -145,10 +147,10 @@ public class startmenu : MonoBehaviour
     public void EditComp(){
         Debug.Log("Editing Competition " + compnames[currentcomp] + "...");
 
+        editingcomp = true;
+        
         ReturnButton();
         NewCompPanel();
-
-        eventsys.SetSelectedGameObject(null, new BaseEventData(eventsys));
 
         string jsoncontent = File.ReadAllText(Application.dataPath + "/Competitions/" + compnames[currentcomp] + ".json");
         Data data = JsonUtility.FromJson<Data>(jsoncontent);
@@ -158,17 +160,18 @@ public class startmenu : MonoBehaviour
             int x=0;
             questioninput.text = question;
             foreach(Transform choice in choices.transform){
-                choice.GetComponent<CustomInputField>().text = data.choices[currentquestionnum*4 + x];
+                choice.GetComponent<InputField>().text = data.choices[questionnameindex*4 + x];
                 x++;
             }
-            AddQuestion(questioninputvisible);
+            
+            AddQuestion();
         }
 
         if(data.questions.Length != 0){
-            Debug.Log("select question0");
             StartCoroutine(WaitForFrameEnd());
             eventsys.SetSelectedGameObject(questionspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
-        }        
+        }
+        editingcomp = false;
     }
 
     public void EnterComp(){
@@ -203,15 +206,15 @@ public class startmenu : MonoBehaviour
         foreach(Transform child in compspanel.transform.GetChild(0))
             Destroy(child.gameObject);
         foreach(Transform choice in choices.transform)
-            choice.GetComponent<CustomInputField>().text = "";
+            choice.GetComponent<InputField>().text = "";
         
-        currentquestionnum = 0;
-        currentcompnum = 0;
+        questionnameindex = 0;
+        compnameindex = 0;
         questionslist.Clear();
         choiceslist.Clear();
         questioninput.text = "";
         compnameinput.text = "";
-        questionbtnpressed = false;
+        editingquestion = false;
 
         startpanel.SetActive(true);
         newpanel.SetActive(false);
@@ -232,17 +235,17 @@ public class startmenu : MonoBehaviour
                 question.name = "question" + (oldname-1);
         }
 
-        currentquestionnum--;
-        questionbtnpressed = false;
+        questionnameindex--;
+        editingquestion = false;
     }
     
     public void DuplicateQuestion(){
         questioninput.text = questionslist[currentquestion];
         for(int i=0; i < 4; i++)
-            choices.transform.GetChild(i).GetComponent<CustomInputField>().text = choiceslist[currentquestion*4 + i];
-        AddQuestion(questioninputvisible);
+            choices.transform.GetChild(i).GetComponent<InputField>().text = choiceslist[currentquestion*4 + i];
+        AddQuestion();
 
-        questionbtnpressed = false;
+        editingquestion = false;
     }
 
     public void EditQuestion(GameObject toeditquestion){
@@ -251,45 +254,41 @@ public class startmenu : MonoBehaviour
 
         questioninput.text = questionslist[currentquestion];
         for(int i=0; i < 4; i++)
-            choices.transform.GetChild(i).GetComponent<CustomInputField>().text = choiceslist[currentquestion*4 + i];        
+            choices.transform.GetChild(i).GetComponent<InputField>().text = choiceslist[currentquestion*4 + i];        
         
-        questionbtnpressed = true;
+        editingquestion = true;
+
 
         eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
     }
 
-    public void AddQuestion(Text question){
+    public void AddQuestion(){
         foreach(Transform choice in choices.transform){
-            choiceslist.Add(choice.GetComponent<CustomInputField>().text);
+            choiceslist.Add(choice.GetComponent<InputField>().text);
         }
         questionslist.Add(questioninput.text);
         
         GameObject newquestion = Instantiate(questionprefab);
-        newquestion.name = "question" + currentquestionnum;
+        newquestion.name = "question" + questionnameindex;
         newquestion.transform.SetParent(questionspanel.transform.GetChild(0));
         
         newquestion.GetComponent<RectTransform>().localScale = new Vector3(1,1,1);
-        newquestion.GetComponent<CustomButton>().rightSelectable = questioninput;
-        newquestion.GetComponent<CustomButton>().onClick.RemoveAllListeners();
-        newquestion.GetComponent<CustomButton>().onClick.AddListener(() => {EditQuestion(newquestion);});
-        newquestion.GetComponentInChildren<Text>().text = question.text;
+        newquestion.GetComponent<Button>().onClick.RemoveAllListeners();
+        newquestion.GetComponent<Button>().onClick.AddListener(() => {EditQuestion(newquestion);});
+        newquestion.GetComponentInChildren<Text>().text = questioninputvisible.text;
 
         foreach(Transform choice in choices.transform)
-            choice.GetComponent<CustomInputField>().text = "";
+            choice.GetComponent<InputField>().text = "";
         questioninput.text = "";
-        currentquestionnum++;
+        questionnameindex++;
 
-        if(currentquestionnum == 0){
-            StartCoroutine(WaitForFrameEnd());
-            returnnewbtn.downSelectable = newquestion.GetComponent<CustomButton>();
-            addquestionbtn.leftSelectable = newquestion.GetComponent<CustomButton>();
+        if(!editingcomp)
+            eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
 
-        }        
-
-        questionbtnpressed = false;
+        editingquestion = false;
     }
 
-    public void UpdateArabicText(CustomInputField input){
+    public void UpdateArabicText(InputField input){
         foreach(Transform child in input.transform){
             if(child.name == "VisibleText"){
                 child.GetComponent<Text>().text = ArabicFixer.Fix(input.text, true, true);
@@ -297,6 +296,18 @@ public class startmenu : MonoBehaviour
         }
     }
     
+    public void UpdateEditedQuestion(){
+        if(editingquestion){
+            Transform questiontoedit = questionspanel.transform.GetChild(0).GetChild(currentquestion);
+            
+            questionslist[currentquestion] = questioninput.text;
+            for (int i = 0; i < 4; i++){
+                choiceslist[currentquestion*4 + i] = choices.transform.GetChild(i).GetComponent<InputField>().text;
+            }
+            questiontoedit.GetComponentInChildren<Text>().text = questioninputvisible.text;
+        }
+    }
+
     void Awake() 
     {
         startpanel.SetActive(true);
@@ -317,31 +328,37 @@ public class startmenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Tab)){
-            Selectable previous = eventsys.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
-
-            if(previous != null){
-                CustomInputField previousCustomInputField = previous.GetComponent<CustomInputField>();
-
-                if(previousCustomInputField != null){
-                    previousCustomInputField.OnPointerClick(new PointerEventData(eventsys));
-                }
-
-
-                eventsys.SetSelectedGameObject(previous.gameObject, new BaseEventData(eventsys));
-            } else Debug.Log("no previous element");
+        if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Tab)){
+            if(questionspanel.transform.GetChild(0).childCount > 0){
+                editingquestion = false;
+                eventsys.SetSelectedGameObject(questionspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
+            }
+        } else if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Tab)){
+            int choicenum = -1;
+            if(eventsys.currentSelectedGameObject.name == "Choice1"){
+                questioninput.OnPointerClick(new PointerEventData(eventsys));
+                eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
+            } else if(eventsys.currentSelectedGameObject.name[0] == 'C' && eventsys.currentSelectedGameObject.name != "QuestionInput"){
+                choicenum = int.Parse(eventsys.currentSelectedGameObject.name.Remove(0, eventsys.currentSelectedGameObject.name.Length-1));
+                choices.transform.GetChild(choicenum-2).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                eventsys.SetSelectedGameObject(choices.transform.GetChild(choicenum-2).gameObject, new BaseEventData(eventsys));
+            } else {
+                choices.transform.GetChild(3).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                eventsys.SetSelectedGameObject(choices.transform.GetChild(3).gameObject, new BaseEventData(eventsys));
+            }
         } else if(Input.GetKeyDown(KeyCode.Tab)){
-            Selectable next = eventsys.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-
-            if(next != null){
-                CustomInputField nextCustomInputField = next.GetComponent<CustomInputField>();
-
-                if(nextCustomInputField != null){
-                    nextCustomInputField.OnPointerClick(new PointerEventData(eventsys));
-                }
-
-                eventsys.SetSelectedGameObject(next.gameObject, new BaseEventData(eventsys));
-            } else Debug.Log("no next element");
+            int choicenum = -1;
+            if(eventsys.currentSelectedGameObject.name == "QuestionInput"){
+                choices.transform.GetChild(0).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                eventsys.SetSelectedGameObject(choices.transform.GetChild(0).gameObject, new BaseEventData(eventsys));
+            } else if(eventsys.currentSelectedGameObject.name[0] == 'C' && eventsys.currentSelectedGameObject.name != "Choice4"){
+                choicenum = int.Parse(eventsys.currentSelectedGameObject.name.Remove(0, eventsys.currentSelectedGameObject.name.Length-1));
+                choices.transform.GetChild(choicenum).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                eventsys.SetSelectedGameObject(choices.transform.GetChild(choicenum).gameObject, new BaseEventData(eventsys));
+            } else {
+                questioninput.OnPointerClick(new PointerEventData(eventsys));
+                eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
+            }
         }
 
         #region Interactable Buttons Manager
@@ -349,18 +366,18 @@ public class startmenu : MonoBehaviour
             int choiceswritten = 0;
             
             foreach(Transform choice in choices.transform){
-                if(choice.GetComponent<CustomInputField>().text != "" && choice.GetComponent<CustomInputField>().text != null)
+                if(choice.GetComponent<InputField>().text != "" && choice.GetComponent<InputField>().text != null)
                     choiceswritten++;
             }
             
-            if(!questionbtnpressed){
+            if(!editingquestion){
                 deletequestionbtn.interactable = false;
                 duplicatequestionbtn.interactable = false;
             } else {
                 deletequestionbtn.interactable = true;
                 duplicatequestionbtn.interactable = true;
             }
-            if(questioninput.text == "" || choiceswritten < 2 || choices.transform.GetChild(0).GetComponent<CustomInputField>().text == ""){
+            if(questioninput.text == "" || choiceswritten < 2 || choices.transform.GetChild(0).GetComponent<InputField>().text == ""){
                 addquestionbtn.interactable = false;
             } else {
                 addquestionbtn.interactable = true;
