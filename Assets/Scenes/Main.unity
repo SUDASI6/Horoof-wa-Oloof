@@ -606,7 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -1551,7 +1551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -1694,7 +1694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -1996,7 +1996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -2139,7 +2139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -2385,7 +2385,6 @@ GameObject:
   - component: {fileID: 727992906}
   - component: {fileID: 727992905}
   - component: {fileID: 727992904}
-  - component: {fileID: 727992903}
   m_Layer: 5
   m_Name: Tiles
   m_TagString: Untagged
@@ -2393,27 +2392,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &727992903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727992902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a46bec2727904eabbd86d1dfab8a557, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentteam: 0
-  askedquestions: 
-  correctlyansweredquestions: 
-  hexagon: {fileID: 980815715}
-  questionpanel: {fileID: 1798029646}
-  teamturn: {fileID: 1172887136}
-  colors:
-  - {r: 0.37647063, g: 0.80392164, b: 0.20392159, a: 1}
-  - {r: 0.8941177, g: 0.21176472, b: 0.18823531, a: 1}
 --- !u!114 &727992904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2782,7 +2760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -3152,7 +3130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -3295,7 +3273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -3724,7 +3702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -3867,7 +3845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -4010,7 +3988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -4344,7 +4322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -4631,7 +4609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -4774,7 +4752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -5184,7 +5162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -5521,7 +5499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -5664,7 +5642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -5807,7 +5785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -6195,7 +6173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -6452,7 +6430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -6672,7 +6650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -6818,6 +6796,7 @@ GameObject:
   - component: {fileID: 1537617402}
   - component: {fileID: 1537617401}
   - component: {fileID: 1537617400}
+  - component: {fileID: 1537617404}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -6906,6 +6885,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1537617404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537617399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a46bec2727904eabbd86d1dfab8a557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentteam: 0
+  askedquestions: 
+  correctlyansweredquestions: 
+  hexagon: {fileID: 980815715}
+  questionpanel: {fileID: 1798029646}
+  teamturn: {fileID: 1172887136}
+  colors:
+  - {r: 0.37647063, g: 0.80392164, b: 0.20392159, a: 1}
+  - {r: 0.8941177, g: 0.21176472, b: 0.18823531, a: 1}
 --- !u!1 &1551812308
 GameObject:
   m_ObjectHideFlags: 0
@@ -7179,7 +7179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -7440,7 +7440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -8151,7 +8151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb147389c1f54caa9c77a7e39051c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   currentquestion: -1
   questionletter: {fileID: 0}
   choices: {fileID: 1531981310}
@@ -8288,7 +8288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 
@@ -8652,7 +8652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b28ae91009d34e8e8dd33a45e9c9a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamemaster: {fileID: 727992903}
+  gamemaster: {fileID: 1537617404}
   questionhub: {fileID: 1798029650}
   myletter: 
   question: 

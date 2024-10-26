@@ -76,49 +76,56 @@ public class hexagonbutton : MonoBehaviour
 
         if(newquestion){
             for(int i=0; i < 4; i++){
-            if(comp.choices[randomquestionindex*4 + i] == "") emptychoices++;
+                if(comp.choices[randomquestionindex*4 + i] == "") emptychoices++;
 
-            questionhub.choices.transform.GetChild(i).GetChild(0).GetComponent<Text>().text = "";
-            questionhub.choices.transform.GetChild(i).GetComponent<Button>().interactable = false;
-            questionhub.choices.transform.GetChild(i).GetComponent<Image>().color = Color.white;
-            questionhub.choices.transform.GetChild(i).GetComponent<Button>().onClick.RemoveAllListeners();
-        }
-        int correctchoice = Random.Range(0,4-emptychoices);
+                questionhub.choices.transform.GetChild(i).GetChild(0).GetComponent<Text>().text = "";
+                questionhub.choices.transform.GetChild(i).GetComponent<Button>().interactable = false;
+                questionhub.choices.transform.GetChild(i).GetComponent<Image>().color = Color.white;
+                questionhub.choices.transform.GetChild(i).GetComponent<Button>().onClick.RemoveAllListeners();
+            }
+            int correctchoice = Random.Range(0,4-emptychoices);
 
-        question = comp.questions[randomquestionindex];
-        questionhub.questiontext.text = ArabicFixer.Fix(question, true, true);
-        questionhub.questionletter = gameObject;
-        
-        questionpanel.SetActive(true);
+            question = comp.questions[randomquestionindex];
+            questionhub.questiontext.text = ArabicFixer.Fix(question, true, true);
+            questionhub.questionletter = gameObject;
+            
+            questionpanel.SetActive(true);
 
-        List<int> choosenchoices = new List<int>();
-        for(int i=0; i < 4-emptychoices; i++){
-            if(i == correctchoice)
-                
-                questionhub.SetChoice(4-emptychoices,i, true, currentteam, comp.choices[randomquestionindex*4]);
-            else {
-                int randchoice = 0;
-                bool choosen = true;
-                
-                while(choosen){
-                    randchoice = Random.Range(1,4);
-                    choosen = false;
-                    foreach(int choosenchoice in choosenchoices){
-                        if(randchoice == choosenchoice){
+            List<string> choosenchoices = new List<string>() {comp.choices[randomquestionindex*4]};
+            // Set Correct Choice
+            questionhub.SetChoice(correctchoice, true, currentteam, comp.choices[randomquestionindex*4]);
+            // Set Other Choices
+            for(int i=0; i < 4-emptychoices; i++){
+                if(i != correctchoice){
+                    int randchoice = 1;
+                    bool choosen = true;
+                    
+                    int time = 10000;
+                    while(choosen){
+                        choosen = false;
+                        time--;
+                        if(time <= 0){
                             choosen = true;
+                            Debug.Log("Couldn't Find A " + (i+1) + " Not Choosen Choice After 10000 Tries");
+                            break;
                         }
-                    }
-                    if(comp.choices[randomquestionindex*4 + randchoice] == "")
-                        choosen = true;
-                }
-                choosenchoices.Add(randchoice);
-                string choicetext = comp.choices[randomquestionindex*4 + randchoice];
 
-                if(choicetext != "" && !choosen){
-                    questionhub.SetChoice(4-emptychoices,i, false, currentteam, choicetext);
+                        randchoice = Random.Range(1,4-emptychoices);
+                        if(comp.choices[randomquestionindex*4 + randchoice] == "")
+                            choosen = true;
+
+                        foreach(string choosenchoice in choosenchoices)
+                            if(comp.choices[randomquestionindex*4 + randchoice] == choosenchoice)
+                                choosen = true;
+                    }
+                    if(!choosen){
+                        string choicetext = comp.choices[randomquestionindex*4 + randchoice];
+                        
+                        choosenchoices.Add(choicetext);
+                        questionhub.SetChoice(i, false, currentteam, choicetext);
+                    } else Debug.Log("Choice " + (i+1) + " Is Empty");
                 }
             }
-        }
         }
     }
 

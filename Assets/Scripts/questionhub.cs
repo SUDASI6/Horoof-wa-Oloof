@@ -40,7 +40,7 @@ public class questionhub : MonoBehaviour
         currentquestion = -1;
     }
 
-    public void SetChoice(int choicesnumber, int choicenumber, bool correctanswer, int team, string choicetext){
+    public void SetChoice(int choicenumber, bool correctanswer, int team, string choicetext){
         Transform choice = choices.transform.GetChild(choicenumber);
         choice.GetComponent<Button>().interactable = true;
         if(correctanswer){

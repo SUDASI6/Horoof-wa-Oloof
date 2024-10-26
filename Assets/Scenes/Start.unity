@@ -524,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 1116352939}
     m_SelectOnDown: {fileID: 1418988005}
     m_SelectOnLeft: {fileID: 1395706119}
     m_SelectOnRight: {fileID: 0}
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 1212189476}
     m_SelectOnDown: {fileID: 2013014235}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -2993,8 +2993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3714f6534e5546ee864cb985ba16c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editingquestion: 0
-  editingcomp: 0
+  activepanel: 2
   questionslist: []
   choiceslist: []
   compnames: []
@@ -4319,7 +4318,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 2042739226}
     m_SelectOnDown: {fileID: 180495941}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1116352939}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -5975,7 +5974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 587645788}
+    m_SelectOnUp: {fileID: 1212189476}
     m_SelectOnDown: {fileID: 443519103}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -6099,7 +6098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}

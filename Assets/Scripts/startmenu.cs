@@ -9,9 +9,10 @@ using UnityEngine.EventSystems;
 
 public class startmenu : MonoBehaviour
 {
-    public bool editingquestion = false;
-    public bool editingcomp = false;
+    bool editingquestion = false;
+    bool editingcomp = false;
 
+    public int activepanel = 2; // 0: load, 1: new, 2: start
     int questionnameindex = 0;
     int compnameindex = 0;
     int currentquestion;
@@ -54,6 +55,7 @@ public class startmenu : MonoBehaviour
     }
 
     public void NewCompPanel(){
+        activepanel = 1;
         startpanel.SetActive(false);
         newpanel.SetActive(true);
         loadpanel.SetActive(false);
@@ -76,6 +78,7 @@ public class startmenu : MonoBehaviour
     }
 
     public void LoadCompPanel(){
+        activepanel = 0;
         startpanel.SetActive(false);
         newpanel.SetActive(false);
         loadpanel.SetActive(true);
@@ -187,6 +190,15 @@ public class startmenu : MonoBehaviour
     }
 
     public void SaveComp(){
+        for (int i = 0; i < questionslist.Count; i++){
+            if(questionslist[i] == "" || questionslist[i] == null){
+                questionslist.RemoveAt(i);
+                for (int j = 0; j < 4; j++)
+                    choiceslist.RemoveAt(4*i);
+                i--;
+            }
+        }
+
         Data data = new Data();
 
         data.compname = compnameinput.text;
@@ -201,20 +213,21 @@ public class startmenu : MonoBehaviour
     }
 
     public void ReturnButton(){
-        foreach(Transform child in questionspanel.transform.GetChild(0))
-            Destroy(child.gameObject);
-        foreach(Transform child in compspanel.transform.GetChild(0))
-            Destroy(child.gameObject);
-        foreach(Transform choice in choices.transform)
-            choice.GetComponent<InputField>().text = "";
-        
+        editingquestion = false;
+        activepanel = 2;
         questionnameindex = 0;
         compnameindex = 0;
         questionslist.Clear();
         choiceslist.Clear();
         questioninput.text = "";
         compnameinput.text = "";
-        editingquestion = false;
+        
+        foreach(Transform child in questionspanel.transform.GetChild(0))
+            Destroy(child.gameObject);
+        foreach(Transform child in compspanel.transform.GetChild(0))
+            Destroy(child.gameObject);
+        foreach(Transform choice in choices.transform)
+            choice.GetComponent<InputField>().text = "";
 
         startpanel.SetActive(true);
         newpanel.SetActive(false);
@@ -249,6 +262,7 @@ public class startmenu : MonoBehaviour
     }
 
     public void EditQuestion(GameObject toeditquestion){
+        editingquestion = false;
         Debug.Log("Editing Question " + toeditquestion.GetComponentInChildren<Text>().text + "...");        
         currentquestion = int.Parse(toeditquestion.name.Remove(0, toeditquestion.name.Length-1));
 
@@ -258,14 +272,19 @@ public class startmenu : MonoBehaviour
         
         editingquestion = true;
 
-
         eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
     }
 
     public void AddQuestion(){
+        int emptychoices = 0;
         foreach(Transform choice in choices.transform){
-            choiceslist.Add(choice.GetComponent<InputField>().text);
+            if(choice.GetComponent<InputField>().text == "")
+                emptychoices++;
+            else
+                choiceslist.Add(choice.GetComponent<InputField>().text);
         }
+        for (int i = 0; i < emptychoices; i++)
+                choiceslist.Add("");
         questionslist.Add(questioninput.text);
         
         GameObject newquestion = Instantiate(questionprefab);
@@ -328,39 +347,47 @@ public class startmenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Tab)){
-            if(questionspanel.transform.GetChild(0).childCount > 0){
-                editingquestion = false;
-                eventsys.SetSelectedGameObject(questionspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
+        if(activepanel == 1){
+            if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Tab)){
+                if(questionspanel.transform.GetChild(0).childCount > 0){
+                    editingquestion = false;
+                    eventsys.SetSelectedGameObject(questionspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
+                }
+            } else if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Tab)){
+                int choicenum = -1;
+                if(eventsys.currentSelectedGameObject.name == "Choice1"){
+                    questioninput.OnPointerClick(new PointerEventData(eventsys));
+                    eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
+                } else if(eventsys.currentSelectedGameObject.name[0] == 'C' && eventsys.currentSelectedGameObject.name != "QuestionInput"){
+                    choicenum = int.Parse(eventsys.currentSelectedGameObject.name.Remove(0, eventsys.currentSelectedGameObject.name.Length-1));
+                    choices.transform.GetChild(choicenum-2).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                    eventsys.SetSelectedGameObject(choices.transform.GetChild(choicenum-2).gameObject, new BaseEventData(eventsys));
+                } else {
+                    choices.transform.GetChild(3).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                    eventsys.SetSelectedGameObject(choices.transform.GetChild(3).gameObject, new BaseEventData(eventsys));
+                }
+            } else if(Input.GetKeyDown(KeyCode.Tab)){
+                int choicenum = -1;
+                if(eventsys.currentSelectedGameObject.name == "QuestionInput"){
+                    choices.transform.GetChild(0).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                    eventsys.SetSelectedGameObject(choices.transform.GetChild(0).gameObject, new BaseEventData(eventsys));
+                } else if(eventsys.currentSelectedGameObject.name[0] == 'C' && eventsys.currentSelectedGameObject.name != "Choice4"){
+                    choicenum = int.Parse(eventsys.currentSelectedGameObject.name.Remove(0, eventsys.currentSelectedGameObject.name.Length-1));
+                    choices.transform.GetChild(choicenum).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
+                    eventsys.SetSelectedGameObject(choices.transform.GetChild(choicenum).gameObject, new BaseEventData(eventsys));
+                } else {
+                    questioninput.OnPointerClick(new PointerEventData(eventsys));
+                    eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
+                }
             }
-        } else if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Tab)){
-            int choicenum = -1;
-            if(eventsys.currentSelectedGameObject.name == "Choice1"){
-                questioninput.OnPointerClick(new PointerEventData(eventsys));
-                eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
-            } else if(eventsys.currentSelectedGameObject.name[0] == 'C' && eventsys.currentSelectedGameObject.name != "QuestionInput"){
-                choicenum = int.Parse(eventsys.currentSelectedGameObject.name.Remove(0, eventsys.currentSelectedGameObject.name.Length-1));
-                choices.transform.GetChild(choicenum-2).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
-                eventsys.SetSelectedGameObject(choices.transform.GetChild(choicenum-2).gameObject, new BaseEventData(eventsys));
-            } else {
-                choices.transform.GetChild(3).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
-                eventsys.SetSelectedGameObject(choices.transform.GetChild(3).gameObject, new BaseEventData(eventsys));
-            }
-        } else if(Input.GetKeyDown(KeyCode.Tab)){
-            int choicenum = -1;
-            if(eventsys.currentSelectedGameObject.name == "QuestionInput"){
-                choices.transform.GetChild(0).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
-                eventsys.SetSelectedGameObject(choices.transform.GetChild(0).gameObject, new BaseEventData(eventsys));
-            } else if(eventsys.currentSelectedGameObject.name[0] == 'C' && eventsys.currentSelectedGameObject.name != "Choice4"){
-                choicenum = int.Parse(eventsys.currentSelectedGameObject.name.Remove(0, eventsys.currentSelectedGameObject.name.Length-1));
-                choices.transform.GetChild(choicenum).GetComponent<InputField>().OnPointerClick(new PointerEventData(eventsys));
-                eventsys.SetSelectedGameObject(choices.transform.GetChild(choicenum).gameObject, new BaseEventData(eventsys));
-            } else {
-                questioninput.OnPointerClick(new PointerEventData(eventsys));
-                eventsys.SetSelectedGameObject(questioninput.gameObject, new BaseEventData(eventsys));
+        } else if(activepanel == 0){
+            if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Tab)){
+                if(compspanel.transform.GetChild(0).childCount > 0){
+                    eventsys.SetSelectedGameObject(compspanel.transform.GetChild(0).GetChild(0).gameObject, new BaseEventData(eventsys));
+                }
             }
         }
-
+        
         #region Interactable Buttons Manager
             
             int choiceswritten = 0;
